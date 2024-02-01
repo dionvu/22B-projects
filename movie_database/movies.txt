@@ -1,0 +1,10 @@
+The Dark Knight, 1.005, Christopher Nolan, 7/18/08, 152
+Titanic, 2.208, James Cameron, 12/19/97, 195
+Avatar, 2.789, James Cameron, 12/18/09, 162
+Inception, 0.828, Christopher Nolan, 7/16/10, 148
+The Shawshank Redemption, 0.727, Frank Darabont, 10/14/94, 142
+Jurassic Park, 1.033, Steven Spielberg, 6/11/93, 127
+The Lord of the Rings: The Return of the King, 1.142, Peter Jackson, 12/17/03, 201
+Forrest Gump, 0.678, Robert Zemeckis, 7/6/94, 142
+The Avengers, 1.518, Joss Whedon, 5/4/12, 143
+The Godfather, 0.268, Francis Ford Coppola, 3/24/72, 175
