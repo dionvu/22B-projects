@@ -23,3 +23,4 @@ Frozen, 1.276, Chris Buck & Jennifer Lee, 11/27/13, 102
 Jurassic Park, 1.03, Steven Spielberg, 6/11/93, 127
 The Lord of the Rings: The Return of the King, 1.12, Peter Jackson, 12/17/03, 200
 Titanic, 2.187, James Cameron, 12/19/97, 195
+Interstellar, 1.169, Christopher Nolan, 11/7/14, 169
