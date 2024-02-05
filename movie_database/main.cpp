@@ -22,6 +22,7 @@ struct Movie {
   string director;
   string releaseDate;
   int runTime;
+  int lol;
 };
 
 /**
