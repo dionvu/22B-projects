@@ -22,8 +22,34 @@ struct Movie {
   string director;
   string releaseDate;
   int runTime;
-  int lol;
 };
+
+// Prototypes
+int numberOfLines(std::ifstream &file);
+void populateMovieFromFile(std::ifstream &file, Movie &movie);
+void displayMovie(const Movie &movie);
+Movie *createDatabase(int &numMovies);
+bool caseInsensitiveCmp(std::string str1, std::string str2);
+void saveToFile(const Movie &movie);
+void findMovie(Movie *movies, int numMovies);
+bool promptToContinue();
+void displayFavorites();
+
+int main() {
+  int numMovies;
+  Movie *movies;
+  char input;
+
+  movies = createDatabase(numMovies);
+
+  do
+    findMovie(movies, numMovies);
+  while (promptToContinue());
+
+  displayFavorites();
+
+  delete[] movies;
+}
 
 /**
  * @brief Counts the number of lines in a file.
@@ -67,8 +93,13 @@ void populateMovieFromFile(ifstream &file, Movie &movie) {
  * @param movie The Movie struct to display.
  */
 void displayMovie(const Movie &movie) {
-  cout << movie.title << ", " << movie.grossTotal << ", " << movie.director
-       << ", " << movie.releaseDate << ", " << movie.runTime << '\n';
+  cout << '\n';
+  cout << "Title: " << movie.title << '\n';
+  cout << "Gross total: " << movie.grossTotal << '\n';
+  cout << "Director: " << movie.director << '\n';
+  cout << "Release date: " << movie.releaseDate << '\n';
+  cout << "Runtime: " << movie.runTime << '\n';
+  cout << '\n';
 }
 
 /**
@@ -163,11 +194,11 @@ void findMovie(Movie *movies, int numMovies) {
       found = true;
       displayMovie(movies[i]);
       cout << "Would you like to save the movie " << movies[i].title
-           << "? (yes/no)\n";
+           << "? ('Y' or 'N')\n";
       cin >> choice;
 
-      if (choice == "yes") {
-        cout << "Saving movie to file.\n";
+      if (choice == "Y" || choice == "y") {
+        cout << "Saving movie to favorites.\n";
         saveToFile(movies[i]);
       }
     }
@@ -192,20 +223,91 @@ bool promptToContinue() {
       return false;
     else
       cout << "Invalid input. Please enter 'Y' to continue or 'N' to exit."
-           << endl;
+           << '\n';
   } while (true);
 }
 
-int main() {
-  int numMovies;
-  Movie *movies;
-  char input;
+/**
+ * @brief Displays favorite movies from the favorites file.
+ */
+void displayFavorites() {
+  ifstream favorites("favorites.txt");
+  string title, grossTotal, director, releaseDate, runTime;
 
-  movies = createDatabase(numMovies);
+  cout << '\n';
 
-  do
-    findMovie(movies, numMovies);
-  while (promptToContinue());
+  if (!favorites) {
+    cout << "Favorites file not opened properly.\n";
+    return;
+  }
 
-  delete[] movies;
+  cout << "Your favorites:\n";
+  while (getline(favorites, title, ',')) {
+    getline(favorites, grossTotal, ',');
+    getline(favorites, director, ',');
+    getline(favorites, releaseDate, ',');
+    getline(favorites, runTime);
+
+    cout << '\n'
+         << "Title: " << title << '\n'
+         << "Gross total:" << grossTotal << '\n'
+         << "Director:" << director << '\n'
+         << "Release date:" << releaseDate << '\n'
+         << "Runtime:" << runTime << '\n'
+         << '\n';
+  }
 }
+
+/* Sample Run
+ *
+ * Enter the input file name: movies
+ * Enter a movie title to be searched for: skyFALL
+ *
+ * Title: Skyfall
+ * Gross total: 1.109
+ * Director: Sam Mendes
+ * Release date: 11/9/12
+ * Runtime: 143
+ *
+ * Would you like to save the movie Skyfall? ('Y' or 'N')
+ * y
+ * Saving movie to favorites.
+ * Press 'Y' to continue or 'N' to exit: y
+ * Enter a movie title to be searched for: toy StORY 3
+ *
+ * Title: Toy Story 3
+ * Gross total: 1.067
+ * Director: Lee Unkrich
+ * Release date: 7/18/10
+ * Runtime: 103
+ *
+ * Would you like to save the movie Toy Story 3? ('Y' or 'N')
+ * y
+ * Saving movie to favorites.
+ * Press 'Y' to continue or 'N' to exit: y
+ * Enter a movie title to be searched for: avAtar
+ *
+ * Title: Avatar
+ * Gross total: 2.788
+ * Director: James Cameron
+ * Release date: 12/18/09
+ * Runtime: 161
+ *
+ * Would you like to save the movie Avatar? ('Y' or 'N')
+ * n
+ * Press 'Y' to continue or 'N' to exit: n
+ *
+ * Your favorites:
+ *
+ * Title: Skyfall
+ * Gross total: 1.109
+ * Director: Sam Mendes
+ * Release date: 11/9/12
+ * Runtime: 143
+ *
+ * Title: Toy Story 3
+ * Gross total: 1.067
+ * Director: Lee Unkrich
+ * Release date: 7/18/10
+ * Runtime: 103
+ */
