@@ -1,4 +1,4 @@
-#include "iomanip"
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -12,7 +12,16 @@ private:
   int numSold;
 
 public:
-  Snack() { name = "", price = 0, stock = 0, numSold = 0; }
+  ~Snack() {
+    cout << name << '\n'
+         << "Amount sold: " << numSold << '\n'
+         << "Stock: " << stock << '\n'
+         << "Moneyies earned: " << price * numSold << '\n';
+  }
+
+  Snack() {
+    this->name = "", this->price = 0, this->stock = 0, this->numSold = 0;
+  }
 
   Snack(string name, double price, int stock) {
     this->name = name;
@@ -20,13 +29,6 @@ public:
     this->stock = stock;
     numSold = 0;
   }
-
-  /* ~Snack() { */
-  /*   cout << name << '\n' */
-  /*        << "Amount sold: " << numSold << '\n' */
-  /*        << "Stock: " << stock << '\n' */
-  /*        << "Moneyies earned: " << price * numSold << '\n'; */
-  /* } */
 
   string getName() const;
   void mutName(string);
@@ -44,19 +46,23 @@ public:
 };
 
 void displayVendingMachine(const Snack machine[], int numItems) {
-  cout << "Name             " << setw(10);
-  for (int i = 0; i < numItems; i++)
-    cout << setw(10) << machine[i].getName();
+  cout << fixed << setprecision(2) << '\n';
+
+  cout << setw(15) << left << "Item #" << setw(15) << left << "Item Name"
+       << setw(15) << left << "Price" << setw(15) << left << "# in-stock";
   cout << '\n';
 
-  cout << "Price            " << setw(10);
-  for (int i = 0; i < numItems; i++)
-    cout << setw(10) << machine[i].getPrice();
+  for (int i = 0; i < 4 * 15; i++)
+    cout << "-";
   cout << '\n';
 
-  cout << "Quantity in stock" << setw(10);
-  for (int i = 0; i < numItems; i++)
-    cout << setw(10) << machine[i].getStock();
+  for (int i = 0; i < numItems; i++) {
+    cout << setw(15) << left << i + 1 << setw(15) << left
+         << machine[i].getName() << setw(15) << left << machine[i].getPrice()
+         << setw(15) << left << machine[i].getStock();
+    cout << '\n';
+  }
+
   cout << '\n';
 }
 
@@ -98,19 +104,13 @@ int main() {
   const int NUM_ITEMS = 3;
 
   int quarters;
-  Snack *machine = new Snack[NUM_ITEMS];
 
-  machine[0] = Snack();
+  Snack machine[] = {Snack(), Snack("candy", 1.25, 5), Snack("Soda", 1.00, 2)};
   machine[0].mutName("chips");
   machine[0].mutPrice(1.75);
-
-  machine[1] = Snack("candy", 1.25, 5);
-
-  machine[2] = Snack("Soda", 1.00, 2);
+  machine[0].mutStock(3);
 
   userBuyItem(machine, NUM_ITEMS);
-
-  delete[] machine;
 }
 
 string Snack::getName() const { return name; }
