@@ -1,3 +1,4 @@
+#include "iomanip"
 #include <iostream>
 #include <string>
 
@@ -20,7 +21,12 @@ public:
     numSold = 0;
   }
 
-  ~Snack() { cout << "Print stuff!"; }
+  /* ~Snack() { */
+  /*   cout << name << '\n' */
+  /*        << "Amount sold: " << numSold << '\n' */
+  /*        << "Stock: " << stock << '\n' */
+  /*        << "Moneyies earned: " << price * numSold << '\n'; */
+  /* } */
 
   string getName() const;
   void mutName(string);
@@ -37,23 +43,39 @@ public:
   bool buyItem(double &);
 };
 
-bool Snack::buyItem(double &moneyEntered) {
-  if (moneyEntered >= price) {
-    moneyEntered -= price;
-    numSold++;
-    stock--;
+void displayVendingMachine(const Snack machine[], int numItems) {
+  cout << "Name             " << setw(10);
+  for (int i = 0; i < numItems; i++)
+    cout << setw(10) << machine[i].getName();
+  cout << '\n';
 
-    cout << "Item has been depensed. Enjoy!\n";
-    return true;
-  } else {
-    cout << "Not enough money! Broke!\n";
-    return false;
-  }
+  cout << "Price            " << setw(10);
+  for (int i = 0; i < numItems; i++)
+    cout << setw(10) << machine[i].getPrice();
+  cout << '\n';
+
+  cout << "Quantity in stock" << setw(10);
+  for (int i = 0; i < numItems; i++)
+    cout << setw(10) << machine[i].getStock();
+  cout << '\n';
 }
 
 int main() {
-  Snack bar("bar", 1.0, 1);
-  cout << bar.getName();
+  Snack *machine = new Snack[3];
+
+  machine[0] = Snack();
+  machine[0].mutName("chips");
+
+  machine[1] = Snack("candy", 1.25, 5);
+
+  machine[2] = Snack("Soda", 1.00, 2);
+
+  displayVendingMachine(machine, 3);
+
+  int yuh;
+  cin >> yuh;
+
+  delete[] machine;
 }
 
 string Snack::getName() const { return name; }
@@ -67,3 +89,19 @@ void Snack::mutStock(int newStock) { stock = newStock; }
 
 int Snack::getNumSold() const { return numSold; }
 void Snack::mutNumSold(int newNumSold) { numSold = newNumSold; }
+
+bool Snack::buyItem(double &moneyEntered) {
+  if (stock <= 0) {
+    cout << "Sorry! We are out of " << name << ".\n";
+    return false;
+  }
+  if (moneyEntered < price) {
+    cout << "Not enough money! Broke!\n";
+    return false;
+  }
+  moneyEntered -= price;
+  numSold++;
+  stock--;
+  cout << "Item has been depensed. Enjoy!\n";
+  return true;
+}
