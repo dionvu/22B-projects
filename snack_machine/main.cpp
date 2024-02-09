@@ -72,22 +72,43 @@ int getQuarters() {
   return quarters;
 }
 
+void userBuyItem(Snack machine[], int numItems) {
+  double amount;
+  int choice;
+
+  displayVendingMachine(machine, numItems);
+  amount = getQuarters() * 0.25;
+
+  cout << "Amount entered: $" << amount << "\n\n";
+
+  do {
+    cout << "Enter the item number to make a purchase: ";
+    cin >> choice;
+    if (choice < 1 || choice > numItems)
+      cout << "Invalid input, enter a value between 1 and " << numItems << '\n';
+  } while (choice < 1 || choice > numItems);
+
+  if (machine[choice - 1].buyItem(amount)) {
+    if (amount != 0)
+      cout << "$" << amount << " returned below.\n";
+  }
+}
+
 int main() {
-  Snack *machine = new Snack[3];
+  const int NUM_ITEMS = 3;
+
+  int quarters;
+  Snack *machine = new Snack[NUM_ITEMS];
 
   machine[0] = Snack();
   machine[0].mutName("chips");
+  machine[0].mutPrice(1.75);
 
   machine[1] = Snack("candy", 1.25, 5);
 
   machine[2] = Snack("Soda", 1.00, 2);
 
-  displayVendingMachine(machine, 3);
-
-  getQuarters();
-
-  int yuh;
-  cin >> yuh;
+  userBuyItem(machine, NUM_ITEMS);
 
   delete[] machine;
 }
