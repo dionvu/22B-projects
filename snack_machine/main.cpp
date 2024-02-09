@@ -60,6 +60,18 @@ void displayVendingMachine(const Snack machine[], int numItems) {
   cout << '\n';
 }
 
+int getQuarters() {
+  int quarters;
+  do {
+    cout << "Input how many quarters: ";
+    cin >> quarters;
+    if (quarters < 1)
+      cout << "Invalid input, enter a value greater than 0...\n";
+  } while (quarters < 1);
+
+  return quarters;
+}
+
 int main() {
   Snack *machine = new Snack[3];
 
@@ -71,6 +83,8 @@ int main() {
   machine[2] = Snack("Soda", 1.00, 2);
 
   displayVendingMachine(machine, 3);
+
+  getQuarters();
 
   int yuh;
   cin >> yuh;
