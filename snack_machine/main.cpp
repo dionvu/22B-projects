@@ -1,3 +1,4 @@
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -10,6 +11,7 @@ private:
   double price;
   int stock;
   int numSold;
+  string *transactionTimes;
 
 public:
   ~Snack() {
@@ -44,6 +46,8 @@ public:
   void mutNumSold(int);
 
   bool buyItem(double &);
+
+  string getCurrentTime();
 };
 
 void displayVendingMachine(const Snack machine[], int numItems) {
@@ -162,4 +166,14 @@ bool Snack::buyItem(double &moneyEntered) {
   stock--;
   cout << "Item has been depensed. Enjoy!\n";
   return true;
+}
+
+string getCurrentTime() {
+  time_t t = time(0);
+  struct tm ts;
+  char buff[10];
+
+  ts = *localtime(&t);
+  strftime(buff, sizeof(buff), "%X", &ts);
+  return buff;
 }
