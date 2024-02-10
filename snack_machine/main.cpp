@@ -13,12 +13,13 @@ private:
 
 public:
   ~Snack() {
-    cout << name << '\n'
-         << "Amount sold: " << numSold << '\n'
-         << "Stock: " << stock << '\n'
-         << "Moneyies earned: " << price * numSold << '\n';
-  }
+    cout << name << ": \n"
+         << "    " << stock << " in stock" << '\n'
+         << "    " << numSold << " sold for a profit of $" << price * numSold
+         << '\n';
 
+    cout << '\n';
+  }
   Snack() {
     this->name = "", this->price = 0, this->stock = 0, this->numSold = 0;
   }
@@ -100,17 +101,39 @@ void userBuyItem(Snack machine[], int numItems) {
   }
 }
 
+bool promptToContine() {
+  string choice;
+
+  do {
+    cout << "Buy more items? (Y / N): ";
+    cin >> choice;
+
+    if (choice != "Y" && choice != "y" && choice != "N" && choice != "n")
+      cout << "Invalid choice.\n";
+
+  } while (choice != "Y" && choice != "y" && choice != "N" && choice != "n");
+
+  if (choice == "Y" || choice == "y")
+    return true;
+
+  return false;
+}
+
 int main() {
   const int NUM_ITEMS = 3;
 
   int quarters;
 
-  Snack machine[] = {Snack(), Snack("candy", 1.25, 5), Snack("Soda", 1.00, 2)};
+  Snack machine[NUM_ITEMS] = {Snack(), Snack("candy", 1.25, 5),
+                              Snack("Soda", 1.00, 2)};
+
   machine[0].mutName("chips");
   machine[0].mutPrice(1.75);
   machine[0].mutStock(3);
 
-  userBuyItem(machine, NUM_ITEMS);
+  do {
+    userBuyItem(machine, NUM_ITEMS);
+  } while (promptToContine());
 }
 
 string Snack::getName() const { return name; }
