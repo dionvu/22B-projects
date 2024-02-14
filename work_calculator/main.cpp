@@ -1,3 +1,12 @@
+/**
+ * @brief Calculates the work dont on oil being pulled from the ground by an
+ * extraction machine depending on different starting heights of the oil. The
+ * force needed to lift an amount of oil is F(x) = 40x^2 + 10x +300. Integration
+ * is used to calculate resulting work.
+ *
+ * @date 2024 Feb 14
+ */
+
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -12,6 +21,7 @@ void insertionSortRecursive(int[], int);
 
 int main() {
   const int SIZE = 5;
+  const int UPPER_BOUND = 50;
   int heights[SIZE];
   int work[SIZE];
 
@@ -19,9 +29,8 @@ int main() {
 
   insertionSortRecursive(heights, SIZE);
 
-  for (int i = 0; i < SIZE; i++) {
-    work[i] = calcWork(heights[i], 50);
-  }
+  for (int i = 0; i < SIZE; i++)
+    work[i] = calcWork(heights[i], UPPER_BOUND);
 
   writeResultsToFile(heights, work, SIZE);
 }
