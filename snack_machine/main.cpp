@@ -93,9 +93,9 @@ int main() {
   machine[0].mutPrice(1.75);
   machine[0].mutStock(3);
 
-  do {
+  do
     userBuyItem(machine, NUM_ITEMS);
-  } while (promptToContine());
+  while (promptToContine());
 }
 
 /** Name getter, and setter */
@@ -109,6 +109,9 @@ void Snack::mutPrice(double newPrice) { price = newPrice; }
 /** Stock getter, and setter*/
 int Snack::getStock() const { return stock; }
 void Snack::mutStock(int newStock) {
+  if (transactionTimes != nullptr)
+    delete[] transactionTimes;
+
   stock = newStock;
   transactionTimes = new string[stock];
 }
@@ -261,3 +264,108 @@ bool promptToContine() {
 
   return false;
 }
+
+/**
+ * Sample Run
+ * Item #         Item Name      Price          # in-stock
+ * ------------------------------------------------------------
+ * 1              chips          1.75           3
+ * 2              candy          1.25           5
+ * 3              Soda           1.00           2
+ *
+ * Input how many quarters: 438092
+ * Amount entered: $109523.00
+ *
+ * Enter the item number to make a purchase: 1
+ * Item has been dispensed. Enjoy!
+ * $109521.25 returned below.
+ * Buy more items? (Y / N): y
+ *
+ * Item #         Item Name      Price          # in-stock
+ * ------------------------------------------------------------
+ * 1              chips          1.75           2
+ * 2              candy          1.25           5
+ * 3              Soda           1.00           2
+ *
+ * Input how many quarters: 34224
+ * Amount entered: $8556.00
+ *
+ * Enter the item number to make a purchase: 1
+ * Item has been dispensed. Enjoy!
+ * $8554.25 returned below.
+ * Buy more items? (Y / N): y
+ *
+ * Item #         Item Name      Price          # in-stock
+ * ------------------------------------------------------------
+ * 1              chips          1.75           1
+ * 2              candy          1.25           5
+ * 3              Soda           1.00           2
+ *
+ * Input how many quarters: 23
+ * Amount entered: $5.75
+ *
+ * Enter the item number to make a purchase: 1
+ * Item has been dispensed. Enjoy!
+ * $4.00 returned below.
+ * Buy more items? (Y / N): y
+ *
+ * Item #         Item Name      Price          # in-stock
+ * ------------------------------------------------------------
+ * 1              chips          1.75           0
+ * 2              candy          1.25           5
+ * 3              Soda           1.00           2
+ *
+ * Input how many quarters: 321
+ * Amount entered: $80.25
+ *
+ * Enter the item number to make a purchase: 1
+ * Sorry! We are out of chips.
+ * Buy more items? (Y / N): y
+ *
+ * Item #         Item Name      Price          # in-stock
+ * ------------------------------------------------------------
+ * 1              chips          1.75           0
+ * 2              candy          1.25           5
+ * 3              Soda           1.00           2
+ *
+ * Input how many quarters: 321
+ * Amount entered: $80.25
+ *
+ * Enter the item number to make a purchase: 2
+ * Item has been dispensed. Enjoy!
+ * $79.00 returned below.
+ * Buy more items? (Y / N): y
+ *
+ * Item #         Item Name      Price          # in-stock
+ * ------------------------------------------------------------
+ * 1              chips          1.75           0
+ * 2              candy          1.25           4
+ * 3              Soda           1.00           2
+ *
+ * Input how many quarters: 0
+ * Invalid input, enter a value greater than 0...
+ * Input how many quarters: 1
+ * Amount entered: $0.25
+ *
+ * Enter the item number to make a purchase: 3
+ * Not enough money! Broke!
+ * Buy more items? (Y / N): n
+ *
+ * Closing info for Soda:
+ *     2 in stock
+ *     0 sold for a profit of $0.00
+ *     Transaction Times:
+ *
+ * Closing info for candy:
+ *     4 in stock
+ *     1 sold for a profit of $1.25
+ *     Transaction Times:
+ *         13:50:37
+ *
+ * Closing info for chips:
+ *     0 in stock
+ *     3 sold for a profit of $5.25
+ *     Transaction Times:
+ *         13:50:10 13:50:17 13:50:23
+ * // End sample
+ */
