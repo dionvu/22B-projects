@@ -11,12 +11,9 @@
 #include <fstream>
 #include <iostream>
 
-using namespace std;
-
-// Prototypes
 bool readHeightsFromFile(int[], int);
 double calcWork(int, int);
-void writeResultsToFile(int[], int[], int);
+void writeResultsToFile(const int[], const int[], int);
 void insertionSortRecursive(int[], int);
 
 int main() {
@@ -25,7 +22,10 @@ int main() {
   int heights[SIZE];
   int work[SIZE];
 
-  readHeightsFromFile(heights, SIZE);
+  if (!readHeightsFromFile(heights, SIZE)) {
+    std::cout << "Error reading heights from the file";
+    return 1;
+  }
 
   insertionSortRecursive(heights, SIZE);
 
@@ -33,16 +33,23 @@ int main() {
     work[i] = calcWork(heights[i], UPPER_BOUND);
 
   writeResultsToFile(heights, work, SIZE);
+
+  return 0;
 }
 
-void insertionSortRecursive(int arr[], int SIZE) {
-  if (SIZE <= 1)
+/**
+ * @brief Used to sort the array of heights from lowerest to hightest.
+ * @param arr[] The array to be sorted.
+ * @param size The size of the array.
+ */
+void insertionSortRecursive(int arr[], int size) {
+  if (size <= 1)
     return;
 
-  insertionSortRecursive(arr, SIZE - 1);
+  insertionSortRecursive(arr, size - 1);
 
-  int last = arr[SIZE - 1];
-  int cur = SIZE - 2;
+  int last = arr[size - 1];
+  int cur = size - 2;
 
   while (cur >= 0 && arr[cur] > last) {
     arr[cur + 1] = arr[cur];
@@ -51,11 +58,17 @@ void insertionSortRecursive(int arr[], int SIZE) {
   arr[cur + 1] = last;
 }
 
-void writeResultsToFile(int heightsArr[], int workArr[], int SIZE) {
-  ofstream file("work_results.txt");
-  for (int i = 0; i < SIZE; i++) {
+/**
+ * @brief Sends the results of integration (work) into a file with the
+ * coresponding height values.
+ * @param heightsArr[] The array to store the values read.
+ * @param workArr[] The array of work values.
+ * @param SIZE The size of both the height and work arrays.
+ */
+void writeResultsToFile(const int heightsArr[], const int workArr[], int SIZE) {
+  std::ofstream file("work_results.txt");
+  for (int i = 0; i < SIZE; i++)
     file << heightsArr[i] << " " << workArr[i] << '\n';
-  }
   file.close();
 }
 
@@ -67,11 +80,18 @@ double calcWork(int lowerBound, int upperBound) {
   return upper - lower;
 }
 
+/**
+ * @brief Reads the height values that will be used for the lower bound of
+ * integration.
+ * @param heightsArr[] The array to store the values read.
+ * @param SIZE The size of the array & how many values are in the file.
+ * @return True if heights read properly, false otherwise.
+ */
 bool readHeightsFromFile(int heightsArr[], int SIZE) {
-  ifstream file("heights.txt");
+  std::ifstream file("heights.txt");
 
   if (!file) {
-    cout << "File not opened properly.\n";
+    std::cout << "File not opened properly.\n";
     return false;
   }
 
@@ -82,3 +102,12 @@ bool readHeightsFromFile(int heightsArr[], int SIZE) {
 
   return true;
 }
+
+/** Sample results:
+ *
+ * -25 1906875
+ * -10 1710000
+ * 0 1694166
+ * 3 1692861
+ * 10 1677333
+ */
