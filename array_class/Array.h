@@ -5,18 +5,36 @@ class Array {
 private:
   unsigned int size;
   int *data;
+  static bool firstTime;
 
 public:
-  Array(){};
-  Array(int size) : size(size) { data = new int[size]; };
-  ~Array() { delete[] data; }
+  static bool isFirstTime() { return firstTime; };
+
+  Array();
+  Array(int);
+  ~Array();
 
   Array(const Array &other);
 
-  bool operator!=(const Array &other) const;
-  bool operator>=(const Array &other) const;
+  Array operator=(Array &);
+
+  bool operator==(const Array &) const;
+  bool operator!=(const Array &) const;
+  bool operator<=(const Array &) const;
+  bool operator>=(const Array &) const;
+  bool operator<(const Array &) const;
+  bool operator>(const Array &) const;
+
+  Array &operator!();
+
+  int operator*() const;
+  void operator+=(const Array &other); // Adds the two arrays into a new one
+
   Array &operator++();
-  Array operator++(int);
-  friend std::ostream &operator<<(std::ostream &out, const Array &other);
-  friend std::istream &operator>>(std::istream &in, Array &other);
+  Array &operator--();
+  friend std::ostream &operator<<(std::ostream &out, const Array &);
+  friend std::istream &operator>>(std::istream &, Array &);
+  int getSize() const;
+
+  int &operator[](int);
 };
