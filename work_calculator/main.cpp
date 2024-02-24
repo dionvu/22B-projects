@@ -12,9 +12,9 @@
 #include <iostream>
 
 bool readHeightsFromFile(int[], int);
+void insertionSortRecursive(int[], int);
 double calcWork(int, int);
 void writeResultsToFile(const int[], const int[], int);
-void insertionSortRecursive(int[], int);
 
 int main() {
   const int SIZE = 5;
@@ -72,6 +72,12 @@ void writeResultsToFile(const int heightsArr[], const int workArr[], int SIZE) {
   file.close();
 }
 
+/**
+ * @brief Integrates F(x) = 40x^2 + 10x +300, and calculates the work.
+ * @param lowerBound The lower bound of integration.
+ * @param upperBound The upper bound of integration.
+ * @return Work.
+ */
 double calcWork(int lowerBound, int upperBound) {
   double lower = (40 * pow(lowerBound, 3) / 3) + (10 * pow(lowerBound, 2) / 2) +
                  (300 * lowerBound);

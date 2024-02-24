@@ -4,10 +4,13 @@
  *
  * @date 2024 Feb 15
  */
+
 #include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <string>
+
+#pragma warning(disable : 4996)
 
 using namespace std;
 
