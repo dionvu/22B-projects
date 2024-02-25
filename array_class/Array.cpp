@@ -1,3 +1,7 @@
+/**
+ * @file Array.cpp
+ */
+
 #include "Array.h"
 #include <ctime>
 
@@ -18,11 +22,17 @@ Array::~Array() {
 
 int &Array::operator[](int index) { return data[index]; }
 
-std::ostream &operator<<(std::ostream &out, const Array &other) {
-  for (int i = 0; i < other.size; i++)
-    out << other.data[i] << " ";
+std::ostream &operator<<(std::ostream &out, const Array &arr) {
+  for (int i = 0; i < arr.size; i++)
+    out << arr.data[i] << " ";
   out << '\n';
   return out;
+}
+
+std::istream &operator>>(std::istream &in, Array &arr) {
+  for (int i = 0; i < arr.getSize(); i++)
+    in >> arr[i];
+  return in;
 }
 
 Array::Array(const Array &other) : size(other.size), data(new int[other.size]) {
@@ -32,7 +42,7 @@ Array::Array(const Array &other) : size(other.size), data(new int[other.size]) {
 }
 
 Array Array::operator=(Array &other) {
-  if (this != &other) { // Check for self-assignment
+  if (this != &other) {
     Array::decreaseNumElements(size);
     delete[] data;
     size = other.size;
@@ -65,10 +75,24 @@ Array &Array::operator++() {
   return *this;
 }
 
+Array Array::operator++(int) {
+  Array original(*this);
+  for (int i = 0; i < size; i++)
+    ++data[i];
+  return original;
+}
+
 Array &Array::operator--() {
   for (int i = 0; i < size; i++)
     --data[i];
   return *this;
+}
+
+Array Array::operator--(int) {
+  Array original(*this);
+  for (int i = 0; i < size; i++)
+    --data[i];
+  return original;
 }
 
 Array &Array::operator!() {
@@ -125,8 +149,12 @@ int Array::operator*() const {
   return smallestValue;
 }
 
-int Array::getSize() const { return size; };
+int Array::getSize() const { return size; }
 
-// Static getters
-void Array::increaseNumElements(int size) { Array::totalNumElements += size; }
-void Array::decreaseNumElements(int size) { Array::totalNumElements -= size; }
+bool Array::isFirstTime() { return firstTime; }
+
+int Array::getNumberOfElements() { return totalNumElements; }
+
+void Array::increaseNumElements(int num) { Array::totalNumElements += num; }
+
+void Array::decreaseNumElements(int num) { Array::totalNumElements -= num; }
