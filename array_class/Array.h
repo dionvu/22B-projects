@@ -6,9 +6,13 @@ private:
   unsigned int size;
   int *data;
   static bool firstTime;
+  static int totalNumElements;
 
 public:
   static bool isFirstTime() { return firstTime; };
+  static int getNumberOfElements() { return totalNumElements; };
+  static void increaseNumElements(int);
+  static void decreaseNumElements(int);
 
   Array();
   Array(int);

@@ -33,8 +33,8 @@ int main() {
   cout << "arr1 is: " << arr1 << endl;
   cout << "--arr1: " << --arr1;
   cout << "arr1 is: " << arr1 << endl;
-  /* cout << "Total number of elements in all arrays: " */
-  /*      << Array::getNumberOfElements() << endl */
-  /*      << endl; */
+  cout << "Total number of elements in all arrays: "
+       << Array::getNumberOfElements() << endl
+       << endl;
   return 0;
 }
