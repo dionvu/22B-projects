@@ -5,8 +5,10 @@
 #include "Array.h"
 #include <ctime>
 
-bool Array::firstTime = true;
-int Array::totalNumElements = 0;
+using namespace std;
+
+bool Array::srandFirstTime = true;
+unsigned int Array::totalNumElements = 0;
 
 Array::Array() {}
 
@@ -22,17 +24,11 @@ Array::~Array() {
 
 int &Array::operator[](int index) { return data[index]; }
 
-std::ostream &operator<<(std::ostream &out, const Array &arr) {
+ostream &operator<<(ostream &out, const Array &arr) {
   for (int i = 0; i < arr.size; i++)
     out << arr.data[i] << " ";
   out << '\n';
   return out;
-}
-
-std::istream &operator>>(std::istream &in, Array &arr) {
-  for (int i = 0; i < arr.getSize(); i++)
-    in >> arr[i];
-  return in;
 }
 
 Array::Array(const Array &other) : size(other.size), data(new int[other.size]) {
@@ -96,50 +92,77 @@ Array Array::operator--(int) {
 }
 
 Array &Array::operator!() {
-  if (isFirstTime()) {
-    std::srand(std::time(nullptr));
-    firstTime = false;
+  if (srandFirstTime) {
+    srand(time(nullptr));
+    srandFirstTime = false;
   }
 
   int last = size - 1;
   int index;
   while (last > 0) {
-    index = std::rand() % (last + 1);
-    std::swap(data[index], data[last]);
+    index = rand() % (last + 1);
+    swap(data[index], data[last]);
     last--;
   }
   return *this;
 }
 
 bool Array::operator==(const Array &other) const {
-  if (this->size <= other.size) {
-    for (int i = 0; i < this->size; i++) {
-      if (this->data[i] != other.data[i])
-        return false;
+  if (size <= other.size) {
+    for (int i = 0; i <= other.size - size; i++) {
+      bool isSubset = true;
+
+      for (int j = 0; j < size; j++)
+        if (data[j] != other.data[i + j]) {
+          isSubset = false;
+          break;
+        }
+
+      if (isSubset)
+        return true;
     }
   } else {
-    for (int i = 0; i < other.size; i++) {
-      if (this->data[i] != other.data[i])
-        return false;
+    for (int i = 0; i <= size - other.size; i++) {
+      bool isSubset = true;
+
+      for (int j = 0; j < other.size; j++)
+        if (data[i + j] != other.data[j]) {
+          isSubset = false;
+          break;
+        }
+
+      if (isSubset)
+        return true;
     }
   }
-  return true;
+
+  return false;
 }
 
 bool Array::operator<(const Array &other) const {
-  return this->data[0] < other.data[0];
+  int minSize = min(size, other.size);
+
+  for (int i = 0; i < minSize; i++) {
+    if (data[i] < other.data[i])
+      return true;
+    else if (data[i] > other.data[i])
+      return false;
+  }
+
+  return false;
 }
 
 bool Array::operator>(const Array &other) const {
-  return this->data[0] > other.data[0];
-}
+  int minSize = min(size, other.size);
 
-bool Array::operator>=(const Array &other) const {
-  return this->data[0] >= other.data[0];
-}
+  for (int i = 0; i < minSize; i++) {
+    if (data[i] > other.data[i])
+      return true;
+    else if (data[i] < other.data[i])
+      return false;
+  }
 
-bool Array::operator<=(const Array &other) const {
-  return this->data[0] <= other.data[0];
+  return false;
 }
 
 int Array::operator*() const {
@@ -150,8 +173,6 @@ int Array::operator*() const {
 }
 
 int Array::getSize() const { return size; }
-
-bool Array::isFirstTime() { return firstTime; }
 
 int Array::getNumberOfElements() { return totalNumElements; }
 
