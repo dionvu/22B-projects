@@ -1,5 +1,4 @@
 #include "Node.h"
-#include <exception>
 #include <iostream>
 
 #pragma once
@@ -15,8 +14,8 @@ public:
   LinkedList();
   ~LinkedList();
 
-  Node<T> &getHead() const;
-  Node<T> &getTail() const;
+  T getFirst() const;
+  T getLast() const;
 
   void append(const T);
 
@@ -30,7 +29,9 @@ public:
 
   bool remove(const T);
 
-  bool find(const T);
+  bool find(const T) const;
+
+  bool isEmpty() const;
 };
 
 template <typename T>
@@ -142,7 +143,7 @@ template <typename T> bool LinkedList<T>::remove(const T data) {
   return false;
 }
 
-template <typename T> bool LinkedList<T>::find(const T data) {
+template <typename T> bool LinkedList<T>::find(const T data) const {
   Node<T> *current = head;
   while (current) {
     if (current->data == data) {
@@ -153,6 +154,10 @@ template <typename T> bool LinkedList<T>::find(const T data) {
   return false;
 }
 
-template <typename T> Node<T> &LinkedList<T>::getHead() const { return *head; }
+template <typename T> bool LinkedList<T>::isEmpty() const {
+  return head == nullptr;
+}
 
-template <typename T> Node<T> &LinkedList<T>::getTail() const { return *tail; }
+template <typename T> T LinkedList<T>::getFirst() const { return head->data; }
+
+template <typename T> T LinkedList<T>::getLast() const { return tail->data; }

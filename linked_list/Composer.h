@@ -10,9 +10,5 @@ private:
 public:
   Composer();
   Composer(string, unsigned int);
+  friend ostream &operator<<(ostream &, const Composer &);
 };
-
-inline Composer::Composer() : name(""), yearPassed(0){};
-
-inline Composer::Composer(string name, unsigned int yearPassed)
-    : name(name), yearPassed(yearPassed){};

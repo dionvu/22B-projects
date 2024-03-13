@@ -1,27 +1,26 @@
+#include "Composer.h"
 #include "LinkedList.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
 int main() {
-  LinkedList<int> *list = new LinkedList<int>();
+  LinkedList<Composer> *list = new LinkedList<Composer>();
 
-  list->append(10);
-  list->append(50);
-  list->append(100);
-  list->insert(40);
-  list->remove(40);
+  ifstream file("composers.txt");
+
+  string name;
+  int year;
+
+  while (getline(file, name, ',')) {
+    file >> year;
+    file.ignore();
+    list->append(Composer(name, year));
+  }
 
   list->printList();
-
-  int num;
-  cout << "Enter a number to search: ";
-  cin >> num;
-
-  if (list->find(num)) {
-    cout << num << " is found in the list." << endl;
-  } else {
-    cout << num << " is not found in the list." << endl;
-  }
 
   delete list;
 }
