@@ -73,7 +73,7 @@ template <typename T> void LinkedList<T>::prepend(const T data) {
 template <typename T> void LinkedList<T>::printList() const {
   Node<T> *iter = head;
   while (iter) {
-    cout << iter->data << '\n';
+    cout << iter->data;
     iter = iter->next;
   }
 }
