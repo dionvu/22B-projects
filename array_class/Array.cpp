@@ -22,6 +22,12 @@ Array::~Array() {
   delete[] data;
 }
 
+Array::Array(const Array &other) : size(other.size), data(new int[other.size]) {
+  Array::increaseNumElements(size);
+  for (int i = 0; i < other.size; i++)
+    data[i] = other.data[i];
+}
+
 int &Array::operator[](int index) { return data[index]; }
 
 ostream &operator<<(ostream &out, const Array &arr) {
@@ -31,10 +37,18 @@ ostream &operator<<(ostream &out, const Array &arr) {
   return out;
 }
 
-Array::Array(const Array &other) : size(other.size), data(new int[other.size]) {
-  Array::increaseNumElements(size);
-  for (int i = 0; i < other.size; i++)
-    data[i] = other.data[i];
+istream &operator>>(istream &in, Array &arr) {
+  int *temp = new int[arr.size + 1];
+
+  for (int i = 0; i < arr.size; i++) {
+    temp[i] = arr[i];
+  }
+  in >> temp[arr.size];
+
+  delete[] arr.data;
+  arr.size += 1;
+  arr.data = temp;
+  return in;
 }
 
 Array Array::operator=(Array &other) {
@@ -49,6 +63,11 @@ Array Array::operator=(Array &other) {
   }
   return *this;
 }
+
+/*
+Check self assign
+
+*/
 
 void Array::operator+=(const Array &other) {
   int *newArr = new int[size + other.size];

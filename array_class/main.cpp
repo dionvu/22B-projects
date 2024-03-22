@@ -36,6 +36,11 @@ int main() {
   cout << "Total number of elements in all arrays: "
        << Array::getNumberOfElements() << endl
        << endl;
+
+  cout << "arr1 is: " << arr1 << endl;
+  cin >> arr1;
+  cout << "arr1 is: " << arr1 << endl;
+
   return 0;
 }
 

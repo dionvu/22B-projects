@@ -162,4 +162,6 @@ public:
    * @return Reference to the output stream.
    */
   friend ostream &operator<<(ostream &, const Array &);
+
+  friend istream &operator>>(istream &, Array &);
 };

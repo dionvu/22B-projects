@@ -14,8 +14,7 @@ using namespace std;
 
 /**
  * @brief A template class representing a singly linked list.
- *
- * @tparam T The type of data stored in the list.
+ * @param T The type of data stored in the list.
  */
 template <typename T> class LinkedList {
 private:
@@ -35,21 +34,18 @@ public:
 
   /**
    * @brief Gets the data of the first element in the list.
-   *
    * @return T The data of the first element.
    */
   T getFirst() const;
 
   /**
    * @brief Gets the data of the last element in the list.
-   *
    * @return T The data of the last element.
    */
   T getLast() const;
 
   /**
    * @brief Appends a new element with the given data to the end of the list.
-   *
    * @param data The data of the element to be appended.
    */
   void append(const T);
@@ -57,7 +53,6 @@ public:
   /**
    * @brief Prepends a new element with the given data to the beginning of the
    * list.
-   *
    * @param data The data of the element to be prepended.
    */
   void prepend(const T);
@@ -74,14 +69,12 @@ public:
 
   /**
    * @brief Inserts a new element with the given data into the list.
-   *
    * @param data The data of the element to be inserted.
    */
   void insert(const T);
 
   /**
    * @brief Removes the first occurrence of the given data from the list.
-   *
    * @param data The data of the element to be removed.
    * @return true If the element was found and removed.
    * @return false If the element was not found.
@@ -90,7 +83,6 @@ public:
 
   /**
    * @brief Searches for the given data in the list.
-   *
    * @param data The data to search for.
    * @return true If the data is found in the list.
    * @return false If the data is not found in the list.
@@ -99,7 +91,6 @@ public:
 
   /**
    * @brief Checks if the list is empty.
-   *
    * @return true If the list is empty.
    * @return false If the list is not empty.
    */
