@@ -64,11 +64,6 @@ Array Array::operator=(Array &other) {
   return *this;
 }
 
-/*
-Check self assign
-
-*/
-
 void Array::operator+=(const Array &other) {
   int *newArr = new int[size + other.size];
 
